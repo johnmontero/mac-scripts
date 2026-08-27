@@ -51,6 +51,36 @@ DIAS=14 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
 DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
 ```
 
+## Ejecución automática (launchd)
+
+El script `clean-old-screenshots.sh` se ejecuta a diario mediante un
+`LaunchAgent` de macOS.
+
+- Definición versionada: `launchd/com.johnmontero.clean-old-screenshots.plist`
+- Programación: todos los días a las 09:00.
+- Log de ejecución: `~/Library/Logs/clean-old-screenshots.log`
+
+Instalación / actualización:
+
+```sh
+cp launchd/com.johnmontero.clean-old-screenshots.plist ~/Library/LaunchAgents/
+launchctl unload ~/Library/LaunchAgents/com.johnmontero.clean-old-screenshots.plist 2>/dev/null
+launchctl load ~/Library/LaunchAgents/com.johnmontero.clean-old-screenshots.plist
+```
+
+Comandos útiles:
+
+```sh
+launchctl list | grep clean-old-screenshots   # ver si está cargado
+launchctl start com.johnmontero.clean-old-screenshots  # ejecutar ahora
+launchctl unload ~/Library/LaunchAgents/com.johnmontero.clean-old-screenshots.plist  # desactivar
+```
+
+> Nota: la primera vez que el script tenga que enviar algo a la Papelera,
+> macOS puede pedir permiso para controlar Finder (Ajustes del Sistema →
+> Privacidad y seguridad → Automatización). Conviene ejecutarlo una vez de
+> forma manual para conceder ese permiso.
+
 ## Cómo enlazar un script con la app Atajos
 
 1. Abre Atajos y crea un atajo nuevo.

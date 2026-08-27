@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.johnmontero.clean-old-screenshots</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/john.montero/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh</string>
+    </array>
+
+    <!-- Se ejecuta todos los días a las 09:00 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- Registros de salida para diagnóstico -->
+    <key>StandardOutPath</key>
+    <string>/Users/john.montero/Library/Logs/clean-old-screenshots.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/john.montero/Library/Logs/clean-old-screenshots.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
