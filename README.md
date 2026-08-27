@@ -51,6 +51,39 @@ DIAS=14 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
 DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
 ```
 
+### shortcuts/move-desktop-images.sh
+
+Mueve las imágenes sueltas del Escritorio (`~/Desktop`) a
+`~/Pictures/Desktop/AÑO/MES/` según la fecha de modificación de cada archivo.
+
+- Solo archivos del nivel superior del Escritorio (no entra en subcarpetas).
+- Formatos: png, jpg, jpeg, gif, heic, webp, tiff, bmp.
+- Maneja colisiones de nombre con sufijo `(1)`, `(2)`.
+- `DRY_RUN=1` muestra un resumen por año/mes sin mover nada.
+
+```sh
+DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-images.sh
+~/development/tools/mac-scripts/shortcuts/move-desktop-images.sh
+```
+
+### shortcuts/move-desktop-videos.sh
+
+Igual que el anterior pero para videos (incluidas grabaciones de pantalla).
+Mueve a `~/Movies/Desktop/AÑO/MES/`.
+
+- Formatos: mov, mp4, m4v, m4p, avi, mkv.
+- `DRY_RUN=1` muestra un resumen por año/mes sin mover nada.
+
+```sh
+DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
+~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
+```
+
+> Nota: las capturas y las grabaciones de pantalla comparten la misma ubicación
+> de guardado (Cmd+Shift+5 → Opciones → Guardar en, o
+> `defaults write com.apple.screencapture location <ruta>`). En este equipo está
+> configurada en `~/Pictures/Screenshots/Temp`.
+
 ## Ejecución automática (launchd)
 
 El script `clean-old-screenshots.sh` se ejecuta a diario mediante un
