@@ -36,6 +36,8 @@ Uso directo:
 Elimina de `~/Pictures/Screenshots/Temp` las capturas con más de N días de
 antigüedad (por fecha de modificación). Por defecto son 7 días.
 
+- Solo actúa sobre **imágenes** (png, jpg, jpeg, gif, heic, webp, tiff, bmp);
+  nunca toca videos ni grabaciones de pantalla.
 - Por seguridad, envía los archivos a la **Papelera** (recuperables), no los
   borra de forma permanente.
 - Configurable por variables de entorno:
@@ -84,21 +86,43 @@ DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
 > `defaults write com.apple.screencapture location <ruta>`). En este equipo está
 > configurada en `~/Pictures/Screenshots/Temp`.
 
-## Ejecución automática (launchd)
+### shortcuts/move-temp-recordings.sh
 
-El script `clean-old-screenshots.sh` se ejecuta a diario mediante un
-`LaunchAgent` de macOS.
+Saca las grabaciones de pantalla (y otros videos) de
+`~/Pictures/Screenshots/Temp` y las mueve a `~/Movies/Screen Recordings/AÑO/MES/`.
 
-- Definición versionada: `launchd/com.johnmontero.clean-old-screenshots.plist`
-- Programación: todos los días a las 09:00.
-- Log de ejecución: `~/Library/Logs/clean-old-screenshots.log`
+Contexto: en macOS las capturas y las grabaciones comparten la misma ubicación
+de guardado, así que ambas nacen en `Temp`. Este script separa las grabaciones
+a una carpeta permanente para que **no** las alcance la limpieza de 7 días
+(que además ya solo borra imágenes).
 
-Instalación / actualización:
+- Formatos: mov, mp4, m4v, m4p, avi, mkv.
+- `DRY_RUN=1` simula sin mover.
 
 ```sh
-cp launchd/com.johnmontero.clean-old-screenshots.plist ~/Library/LaunchAgents/
-launchctl unload ~/Library/LaunchAgents/com.johnmontero.clean-old-screenshots.plist 2>/dev/null
-launchctl load ~/Library/LaunchAgents/com.johnmontero.clean-old-screenshots.plist
+DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
+~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
+```
+
+## Ejecución automática (launchd)
+
+Dos `LaunchAgent` de macOS trabajan sobre la carpeta `Temp`:
+
+- `launchd/com.johnmontero.move-temp-recordings.plist` — mueve grabaciones a
+  `~/Movies/Screen Recordings/AÑO/MES`. Se ejecuta a diario a las **08:55**.
+  Log: `~/Library/Logs/move-temp-recordings.log`
+- `launchd/com.johnmontero.clean-old-screenshots.plist` — borra imágenes de más
+  de 7 días. Se ejecuta a diario a las **09:00** (después del enrutado de
+  grabaciones). Log: `~/Library/Logs/clean-old-screenshots.log`
+
+Instalación / actualización (repetir por cada plist):
+
+```sh
+for p in launchd/*.plist; do
+  cp "$p" ~/Library/LaunchAgents/
+  launchctl unload ~/Library/LaunchAgents/"${p:t}" 2>/dev/null
+  launchctl load ~/Library/LaunchAgents/"${p:t}"
+done
 ```
 
 Comandos útiles:

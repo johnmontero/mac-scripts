@@ -23,6 +23,16 @@ ORIGEN="$HOME/Pictures/Screenshots/Temp"
 DRY_RUN="${DRY_RUN:-0}"           # 1 = solo simular
 PERMANENTE="${PERMANENTE:-0}"     # 1 = borrar con rm en vez de Papelera
 
+# Solo se eliminan IMAGENES. Los videos/grabaciones nunca se tocan aqui.
+EXTENSIONES=(png jpg jpeg gif heic webp tiff bmp)
+find_ext_args=()
+for ext in "${EXTENSIONES[@]}"; do
+  if (( ${#find_ext_args} > 0 )); then
+    find_ext_args+=(-o)
+  fi
+  find_ext_args+=(-iname "*.${ext}")
+done
+
 # Envia un archivo a la Papelera usando Finder (conserva "devolver").
 enviar_a_papelera() {
   local ruta="$1"
@@ -49,7 +59,7 @@ while IFS= read -r -d '' archivo; do
     echo "Enviado a la Papelera: ${archivo:t}"
   fi
   eliminados=$((eliminados + 1))
-done < <(find "$ORIGEN" -type f -mtime +"$DIAS" -print0)
+done < <(find "$ORIGEN" -type f -mtime +"$DIAS" \( "${find_ext_args[@]}" \) -print0)
 
 if [[ "$DRY_RUN" == "1" ]]; then
   echo "Simulacion terminada. Coincidencias: $eliminados (umbral: >${DIAS} dias)"
