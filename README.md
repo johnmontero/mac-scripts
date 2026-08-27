@@ -109,8 +109,11 @@ DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
 
 ## Ejecución automática (launchd)
 
-Tres `LaunchAgent` de macOS mantienen el orden a diario:
+Cuatro `LaunchAgent` de macOS mantienen el orden a diario (en este orden):
 
+- `launchd/com.johnmontero.classify-screenshots.plist` — mueve las capturas con
+  tag **"Azul"** de `Temp` a `Permanent`. A las **08:50** (antes de la limpieza,
+  para que lo marcado no se borre). Log: `~/Library/Logs/classify-screenshots.log`
 - `launchd/com.johnmontero.move-temp-recordings.plist` — mueve grabaciones de
   `Temp` a `~/Movies/Screen Recordings/AÑO/MES`. A las **08:55**.
   Log: `~/Library/Logs/move-temp-recordings.log`

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.johnmontero.classify-screenshots</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/john.montero/development/tools/mac-scripts/shortcuts/classify-screenshots.sh</string>
+    </array>
+
+    <!-- Se ejecuta todos los días a las 08:50, antes de la limpieza -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>50</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/john.montero/Library/Logs/classify-screenshots.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/john.montero/Library/Logs/classify-screenshots.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
