@@ -109,6 +109,24 @@ DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
 ```
 
+### shortcuts/organize-downloads.sh
+
+Ordena los archivos sueltos de `~/Downloads` en subcarpetas por tipo:
+`Documents/`, `Images/`, `Video/`, `Archives/`, `Installers/`, `Data/`, `Other/`.
+
+- Solo archivos del nivel superior; no toca las subcarpetas existentes.
+- Los archivos de 1 GB o más (`BIG_MB`) van a `Installers/`, para agrupar los
+  gigantes (imágenes de disco, modelos, etc.).
+- Mueve, nunca borra. Colisiones con sufijo `(1)`, `(2)`.
+- `DRY_RUN=1` muestra un resumen por categoría (conteo y MB) sin mover.
+- `MIN_DIAS=N` ordena solo archivos con más de N días (deja lo reciente arriba).
+
+```sh
+DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/organize-downloads.sh
+MIN_DIAS=7 ~/development/tools/mac-scripts/shortcuts/organize-downloads.sh
+~/development/tools/mac-scripts/shortcuts/organize-downloads.sh
+```
+
 ## Ejecución automática (launchd)
 
 Cinco `LaunchAgent` de macOS mantienen el orden a diario (en este orden):
