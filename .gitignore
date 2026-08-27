@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Archivos temporales de editores
+*.swp
+*~
+.idea/
+.vscode/
