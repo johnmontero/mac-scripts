@@ -9,8 +9,9 @@
 # - Maneja colisiones de nombre agregando un sufijo (1), (2), etc.
 #
 # Uso:
-#   ./move-desktop-images.sh            # mueve las imagenes
-#   DRY_RUN=1 ./move-desktop-images.sh  # solo muestra un resumen, no mueve
+#   ./move-desktop-images.sh              # mueve todas las imagenes
+#   DRY_RUN=1 ./move-desktop-images.sh    # solo muestra un resumen, no mueve
+#   MIN_DIAS=1 ./move-desktop-images.sh   # solo imagenes con mas de 1 dia
 #
 # Se puede incrustar en la app Atajos con "Ejecutar script de shell".
 
@@ -19,6 +20,7 @@ set -euo pipefail
 ORIGEN="$HOME/Desktop"
 DESTINO_BASE="$HOME/Pictures/Desktop"
 DRY_RUN="${DRY_RUN:-0}"
+MIN_DIAS="${MIN_DIAS:-0}"   # 0 = sin filtro; N = solo archivos con >N dias
 
 # Extensiones de imagen a considerar (sin distinguir mayusculas/minusculas).
 EXTENSIONES=(png jpg jpeg gif heic webp tiff bmp)
@@ -26,6 +28,12 @@ EXTENSIONES=(png jpg jpeg gif heic webp tiff bmp)
 if [[ ! -d "$ORIGEN" ]]; then
   echo "La carpeta de origen no existe: $ORIGEN"
   exit 0
+fi
+
+# Filtro opcional de antiguedad. MIN_DIAS=1 => -mtime +0 (mas de ~1 dia).
+mtime_arg=()
+if (( MIN_DIAS > 0 )); then
+  mtime_arg=(-mtime +$((MIN_DIAS - 1)))
 fi
 
 # Construye los argumentos -iname '*.ext' -o ... para find (sin -o sobrante).
@@ -67,7 +75,7 @@ while IFS= read -r -d '' archivo; do
 
   mv "$archivo" "$destino_final"
   movidos=$((movidos + 1))
-done < <(find "$ORIGEN" -maxdepth 1 -type f \( "${find_args[@]}" \) -print0)
+done < <(find "$ORIGEN" -maxdepth 1 -type f "${mtime_arg[@]}" \( "${find_args[@]}" \) -print0)
 
 if [[ "$DRY_RUN" == "1" ]]; then
   echo "== Simulacion: imagenes que se moverian a $DESTINO_BASE =="

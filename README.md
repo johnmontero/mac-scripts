@@ -62,9 +62,12 @@ Mueve las imágenes sueltas del Escritorio (`~/Desktop`) a
 - Formatos: png, jpg, jpeg, gif, heic, webp, tiff, bmp.
 - Maneja colisiones de nombre con sufijo `(1)`, `(2)`.
 - `DRY_RUN=1` muestra un resumen por año/mes sin mover nada.
+- `MIN_DIAS=N` archiva solo imágenes con más de N días (para no llevarse las
+  recién puestas). Sin la variable, mueve todas.
 
 ```sh
 DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-images.sh
+MIN_DIAS=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-images.sh
 ~/development/tools/mac-scripts/shortcuts/move-desktop-images.sh
 ```
 
@@ -106,14 +109,17 @@ DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
 
 ## Ejecución automática (launchd)
 
-Dos `LaunchAgent` de macOS trabajan sobre la carpeta `Temp`:
+Tres `LaunchAgent` de macOS mantienen el orden a diario:
 
-- `launchd/com.johnmontero.move-temp-recordings.plist` — mueve grabaciones a
-  `~/Movies/Screen Recordings/AÑO/MES`. Se ejecuta a diario a las **08:55**.
+- `launchd/com.johnmontero.move-temp-recordings.plist` — mueve grabaciones de
+  `Temp` a `~/Movies/Screen Recordings/AÑO/MES`. A las **08:55**.
   Log: `~/Library/Logs/move-temp-recordings.log`
 - `launchd/com.johnmontero.clean-old-screenshots.plist` — borra imágenes de más
-  de 7 días. Se ejecuta a diario a las **09:00** (después del enrutado de
-  grabaciones). Log: `~/Library/Logs/clean-old-screenshots.log`
+  de 7 días de `Temp`. A las **09:00** (después del enrutado de grabaciones).
+  Log: `~/Library/Logs/clean-old-screenshots.log`
+- `launchd/com.johnmontero.archive-desktop-images.plist` — archiva imágenes del
+  Escritorio (más de 1 día, vía `MIN_DIAS=1`) en `~/Pictures/Desktop/AÑO/MES`.
+  A las **09:05**. Log: `~/Library/Logs/archive-desktop-images.log`
 
 Instalación / actualización (repetir por cada plist):
 
