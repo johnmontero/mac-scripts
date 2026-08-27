@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.johnmontero.archive-desktop-videos</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/john.montero/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh</string>
+    </array>
+
+    <!-- Solo archiva videos con mas de 1 dia de antiguedad -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>MIN_DIAS</key>
+        <string>1</string>
+    </dict>
+
+    <!-- Se ejecuta todos los días a las 09:07 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>7</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/john.montero/Library/Logs/archive-desktop-videos.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/john.montero/Library/Logs/archive-desktop-videos.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

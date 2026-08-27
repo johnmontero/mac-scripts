@@ -78,9 +78,11 @@ Mueve a `~/Movies/Desktop/AÑO/MES/`.
 
 - Formatos: mov, mp4, m4v, m4p, avi, mkv.
 - `DRY_RUN=1` muestra un resumen por año/mes sin mover nada.
+- `MIN_DIAS=N` archiva solo videos con más de N días. Sin la variable, mueve todos.
 
 ```sh
 DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
+MIN_DIAS=1 ~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
 ~/development/tools/mac-scripts/shortcuts/move-desktop-videos.sh
 ```
 
@@ -109,7 +111,7 @@ DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/move-temp-recordings.sh
 
 ## Ejecución automática (launchd)
 
-Cuatro `LaunchAgent` de macOS mantienen el orden a diario (en este orden):
+Cinco `LaunchAgent` de macOS mantienen el orden a diario (en este orden):
 
 - `launchd/com.johnmontero.classify-screenshots.plist` — mueve las capturas con
   tag **"Azul"** de `Temp` a `Permanent`. A las **08:50** (antes de la limpieza,
@@ -123,6 +125,9 @@ Cuatro `LaunchAgent` de macOS mantienen el orden a diario (en este orden):
 - `launchd/com.johnmontero.archive-desktop-images.plist` — archiva imágenes del
   Escritorio (más de 1 día, vía `MIN_DIAS=1`) en `~/Pictures/Desktop/AÑO/MES`.
   A las **09:05**. Log: `~/Library/Logs/archive-desktop-images.log`
+- `launchd/com.johnmontero.archive-desktop-videos.plist` — archiva videos del
+  Escritorio (más de 1 día, vía `MIN_DIAS=1`) en `~/Movies/Desktop/AÑO/MES`.
+  A las **09:07**. Log: `~/Library/Logs/archive-desktop-videos.log`
 
 Instalación / actualización (repetir por cada plist):
 
