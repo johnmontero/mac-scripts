@@ -15,7 +15,7 @@ mac-scripts/
 
 ## Scripts
 
-### shortcuts/clasificar-capturas.sh
+### shortcuts/classify-screenshots.sh
 
 Revisa la carpeta `~/Pictures/Screenshots/Temp` y mueve a
 `~/Pictures/Screenshots/Permanent` cada archivo que tenga la etiqueta (tag) de
@@ -28,7 +28,27 @@ Finder **"Azul"**.
 Uso directo:
 
 ```sh
-~/development/tools/mac-scripts/shortcuts/clasificar-capturas.sh
+~/development/tools/mac-scripts/shortcuts/classify-screenshots.sh
+```
+
+### shortcuts/clean-old-screenshots.sh
+
+Elimina de `~/Pictures/Screenshots/Temp` las capturas con más de N días de
+antigüedad (por fecha de modificación). Por defecto son 7 días.
+
+- Por seguridad, envía los archivos a la **Papelera** (recuperables), no los
+  borra de forma permanente.
+- Configurable por variables de entorno:
+  - `DIAS=14` cambia el umbral de días.
+  - `DRY_RUN=1` solo muestra qué se eliminaría, sin borrar.
+  - `PERMANENTE=1` borra de forma permanente con `rm` en vez de la Papelera.
+
+Uso directo:
+
+```sh
+~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
+DIAS=14 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
+DRY_RUN=1 ~/development/tools/mac-scripts/shortcuts/clean-old-screenshots.sh
 ```
 
 ## Cómo enlazar un script con la app Atajos
@@ -41,7 +61,7 @@ Uso directo:
    - Shell: `zsh`
    - Cuerpo: la ruta al script, entre comillas. Por ejemplo:
      ```
-     "$HOME/development/tools/mac-scripts/shortcuts/clasificar-capturas.sh"
+     "$HOME/development/tools/mac-scripts/shortcuts/classify-screenshots.sh"
      ```
 4. Nombra el atajo (por ejemplo, `Clasificar Capturas`) y guarda.
 
